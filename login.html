@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANTA-MD | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background: #000; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; 
+            align-items: center; 
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 100px 0 50px 0; 
+        }
+
+        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: radial-gradient(circle at center, #0a1a2d 0%, #000000 100%); }
+        .star { position: absolute; background: #b6e3ff; border-radius: 50%; opacity: 0.6; animation: move linear infinite; }
+        @keyframes move { from { transform: translateY(100vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 0.8; } }
+
+        .glass-box {
+            position: relative; z-index: 10; width: 90%; max-width: 420px;
+            padding: 60px 30px 40px 30px; background: rgba(0, 212, 255, 0.03); 
+            backdrop-filter: blur(25px); border: 1px solid rgba(182, 227, 255, 0.1);
+            border-radius: 40px; text-align: center; color: #fff;
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.1);
+            margin-top: 20px; 
+        }
+
+        .logo-container {
+            position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 100px; background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff; border-radius: 50%; padding: 5px;
+            backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            overflow: hidden;
+        }
+        .logo-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+        h1 { color: #00d4ff; margin-bottom: 5px; font-size: 2.2rem; text-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
+        p { font-size: 0.85rem; margin-bottom: 25px; color: rgba(255, 255, 255, 0.6); letter-spacing: 1px; }
+
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 5px; margin-left: 15px; }
+        input {
+            width: 100%; padding: 14px 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 30px;
+            color: #fff; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: #00d4ff; background: rgba(0, 212, 255, 0.05); }
+
+        .btn {
+            width: 100%; padding: 14px; border-radius: 30px;
+            background: rgba(0, 212, 255, 0.1); color: #fff;
+            border: 1px solid rgba(0, 212, 255, 0.2); cursor: pointer;
+            font-weight: 600; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem; position: relative;
+        }
+
+        .btn.auto-glow, .btn:hover {
+            background: #00d4ff;
+            color: #000;
+            border-color: #00d4ff;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        .native-ad-wrapper {
+            position: relative; z-index: 10; width: 90%; max-width: 400px;
+            min-height: 100px; background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px; overflow: hidden; margin-top: 30px;
+        }
+
+        #errorMsg { color: #ff4b4b; font-size: 0.8rem; margin-top: 15px; display: none; }
+        .music-tag { margin-top: 20px; font-size: 0.7rem; color: #00d4ff; opacity: 0.6; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="stars-container" id="stars"></div>
+
+    <div class="glass-box">
+        <div class="logo-container">
+            <img src="https://github.com/Akashkavindu/ZANTA_MD/blob/main/images/WhatsApp%20Image%202025-12-29%20at%209.28.43%20AM.jpeg?raw=true" alt="Logo">
+        </div>
+
+        <h1>ZANTA-MD</h1>
+        <p>DASHBOARD LOGIN</p>
+
+        <div class="input-group">
+            <label>WhatsApp Number</label>
+            <input type="text" id="botId" placeholder="94743404814">
+        </div>
+        <div class="input-group">
+            <label>Bot Password</label>
+            <input type="password" id="botPass" placeholder="Enter your password">
+        </div>
+
+        <button class="btn" id="loginBtn" onclick="handleLogin()">LOGIN NOW</button>
+        
+        <p id="errorMsg"></p>
+        <div class="music-tag">🎵 Music starts on click</div>
+    </div>
+
+    <div class="native-ad-wrapper">
+        <script async="async" data-cfasync="false" src="https://pl28409004.effectivegatecpm.com/04fde588c8c3c4ebc19bb82d26eddcf6/invoke.js"></script>
+        <div id="container-04fde588c8c3c4ebc19bb82d26eddcf6"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://auth-best.vercel.app/api/auth';
+
+        const loginBtn = document.getElementById('loginBtn');
+        let isGlowing = false;
+
+        setInterval(() => {
+            if (!isGlowing) {
+                loginBtn.classList.add('auto-glow');
+            } else {
+                loginBtn.classList.remove('auto-glow');
+            }
+            isGlowing = !isGlowing;
+        }, 2000);
+
+        window.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            if(music.paused) {
+                music.play().catch(e => console.log("Music play blocked"));
+            }
+        }, { once: true });
+
+        async function handleLogin() {
+            const id = document.getElementById('botId').value.trim();
+            const password = document.getElementById('botPass').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const btn = document.getElementById('loginBtn');
+
+            if(!id || !password) {
+                errorMsg.innerText = "Please fill all fields!";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            btn.innerText = "VERIFYING...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, password, action: 'login' })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('bot_id', id);
+                    localStorage.setItem('bot_pass', password); 
+                    localStorage.setItem('bot_settings', JSON.stringify(data.settings));
+                    
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorMsg.innerText = data.error;
+                    errorMsg.style.display = "block";
+                    btn.innerText = "LOGIN NOW";
+                    btn.disabled = false;
+                }
+            } catch (e) {
+                errorMsg.innerText = "Connection Error!";
+                errorMsg.style.display = "block";
+                btn.innerText = "LOGIN NOW";
+                btn.disabled = false;
+            }
+        }
+
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 5 + 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
+
+    <script src="https://pl28408894.effectivegatecpm.com/38/f2/4c/38f24ce2699abee8a53ce4302ea94cb2.js"></script>
+
+</body>
+</html>

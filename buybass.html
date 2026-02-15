@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANTA-MD | Buy Bot Base</title>
+    
+    <script type='text/javascript' src='//pl28408717.effectivegatecpm.com/00/6e/30/006e304b5ab96fb51a608263d55d1a7e.js'></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { 
+            background: #000; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            padding: 40px 0 100px 0; 
+        }
+
+        /* ✨ Light Blue Space Background */
+        .stars-container { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; 
+            background: radial-gradient(circle at center, #0a1a2d 0%, #000000 100%); 
+        }
+        .star { position: absolute; background: #b6e3ff; border-radius: 50%; opacity: 0.6; animation: move linear infinite; }
+        @keyframes move { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
+
+        /* 💎 Glass Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 95%;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        h1 { font-size: 2.5rem; color: #00d4ff; text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); margin-bottom: 10px; }
+        .sub-title { color: rgba(255, 255, 255, 0.6); margin-bottom: 25px; font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* 📢 Ads Wrapper */
+        .store-ads-wrapper {
+            width: 100%;
+            max-width: 728px;
+            margin: 35px auto;
+            min-height: 80px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 📦 Pricing Cards Layout */
+        .pricing-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .price-card {
+            background: rgba(0, 212, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 30px;
+            padding: 40px 25px;
+            width: 260px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Auto Hover Style */
+        .price-card.auto-hover, .price-card:hover {
+            transform: translateY(-10px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.08);
+        }
+
+        /* 👑 Mini Bot Special Style */
+        .mini-bot-card { border: 2px solid #ffd700 !important; background: rgba(255, 215, 0, 0.08) !important; }
+        .best-value-badge {
+            position: absolute; top: 15px; right: -35px;
+            background: #ffd700; color: #000; font-size: 0.7rem; font-weight: bold;
+            padding: 5px 40px; transform: rotate(45deg);
+        }
+
+        .price-card h2 { color: #fff; font-size: 1.4rem; margin-bottom: 15px; }
+        .price-card .price { color: #00d4ff; font-size: 1.8rem; font-weight: 600; margin-bottom: 20px; }
+        
+        .details-list { text-align: left; width: 100%; margin-bottom: 30px; list-style: none; color: rgba(255, 255, 255, 0.8); font-size: 0.8rem; }
+        .details-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .details-list li i { color: #00d4ff; font-size: 0.8rem; }
+
+        /* 🛒 Buy Button */
+        .buy-btn {
+            width: 100%; padding: 12px; background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff; color: #fff; text-decoration: none;
+            border-radius: 15px; font-weight: 600; transition: 0.3s; display: block;
+        }
+        .buy-btn:hover { background: #00d4ff; color: #000; box-shadow: 0 0 20px #00d4ff; }
+
+        /* 🚩 Fixed Bottom Ad */
+        .fixed-bottom-ad {
+            position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(0,0,0,0.8); display: flex; justify-content: center; padding: 10px 0;
+        }
+
+        .home-link { display: inline-block; margin-top: 30px; color: #00d4ff; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #00d4ff; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="stars"></div>
+
+    <div class="container">
+        <h1>Bot Base Store</h1>
+        <p class="sub-title">Select your power and build your own bot</p>
+
+        <div class="pricing-wrapper">
+            <div class="price-card mini-bot-card">
+                <div class="best-value-badge">BEST VALUE</div>
+                <h2>Mini Bot Base</h2>
+                <div class="price">Rs. 1800</div>
+                <ul class="details-list">
+                    <li><i class="fas fa-check-circle"></i> Full Bass</li>
+                    <li><i class="fas fa-check-circle"></i> 30+ Premium Plugins</li>
+                    <li><i class="fas fa-check-circle"></i> Live Database Access</li>
+                    <li><i class="fas fa-check-circle"></i> Lifetime Updates</li>
+                </ul>
+                <a href="http://wa.me/+94743404814?text=*Hey_Zanta...can_i_buy_the_Mini_Bot_Base_(R1800)*" class="buy-btn">Buy Now</a>
+            </div>
+
+            <div class="price-card">
+                <h2>Base Lite</h2>
+                <div class="price">Rs. 550</div>
+                <ul class="details-list">
+                    <li><i class="fas fa-check-circle"></i> Full Bot Base</li>
+                    <li><i class="fas fa-check-circle"></i> 5 Essential Plugins</li>
+                    <li><i class="fas fa-check-circle"></i> Standard Support</li>
+                    <li><i class="fas fa-times-circle" style="color: #444;"></i> Pair Site Repo</li>
+                </ul>
+                <a href="http://wa.me/+94743404814?text=*Hey_Zanta...can_i_buy_lite_bot_bass(R550)*" class="buy-btn">Buy Now</a>
+            </div>
+
+            <div class="price-card">
+                <h2>Base Premium</h2>
+                <div class="price">Rs. 850</div>
+                <ul class="details-list">
+                    <li><i class="fas fa-check-circle"></i> Full Bot Base</li>
+                    <li><i class="fas fa-check-circle"></i> 15 Advanced Plugins</li>
+                    <li><i class="fas fa-check-circle"></i> Speed Optimized</li>
+                    <li><i class="fas fa-check-circle"></i> Priority Support</li>
+                </ul>
+                <a href="http://wa.me/+94743404814?text=*Hey_Zanta...can_i_buy_premium_bot_bass(R850)*" class="buy-btn">Buy Now</a>
+            </div>
+        </div>
+
+        <div class="store-ads-wrapper">
+            <script async="async" data-cfasync="false" src="https://pl28409004.effectivegatecpm.com/04fde588c8c3c4ebc19bb82d26eddcf6/invoke.js"></script>
+            <div id="container-04fde588c8c3c4ebc19bb82d26eddcf6"></div>
+        </div>
+
+        <a href="index.html" class="home-link">← Return to Home</a>
+    </div>
+
+    <script type='text/javascript' src='https://pl28408894.effectivegatecpm.com/38/f2/4c/38f24ce2699abee8a53ce4302ea94cb2.js'></script>
+
+    <div class="fixed-bottom-ad">
+        <script type="text/javascript">
+            atOptions = { 'key' : 'c8046fb4f58871287e3444e872b11763', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/c8046fb4f58871287e3444e872b11763/invoke.js"></script>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Stars Logic
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2.5 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 5 + 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Auto-hover effect for Cards
+        const cards = document.querySelectorAll('.price-card');
+        let cardIndex = 0;
+        function autoHoverCards() {
+            cards.forEach(c => c.classList.remove('auto-hover'));
+            if(cards[cardIndex]) cards[cardIndex].classList.add('auto-hover');
+            cardIndex = (cardIndex + 1) % cards.length;
+        }
+        setInterval(autoHoverCards, 3000);
+
+        // Music Trigger
+        window.addEventListener('click', () => {
+            const audio = document.getElementById('bgMusic');
+            if(audio) audio.play().catch(e => console.log("Music blocked"));
+        }, { once: true });
+    </script>
+</body>
+</html>

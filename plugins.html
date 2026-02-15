@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANTA-MD | Free Plugins</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #000; min-height: 100vh; overflow-x: hidden; display: flex; justify-content: center; align-items: center; padding: 40px 0; }
+
+        .stars-container { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; 
+            background: radial-gradient(circle at center, #0a1a2d 0%, #000000 100%); 
+        }
+        .star { position: absolute; background: #b6e3ff; border-radius: 50%; opacity: 0.6; animation: move linear infinite; }
+        @keyframes move { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
+
+        .glass-box {
+            position: relative;
+            z-index: 10;
+            width: 95%;
+            max-width: 750px;
+            padding: 40px 20px;
+            background: rgba(0, 191, 255, 0.03); 
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(182, 227, 255, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.1);
+            text-align: center;
+        }
+
+        h1 { font-size: 2.2rem; color: #00d4ff; text-shadow: 0 0 15px rgba(0, 212, 255, 0.5); margin-bottom: 20px; }
+
+        /* 📢 Ads Container Optimized */
+        .ads-container {
+            width: 100%;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            min-height: 80px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .plugin-list { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+
+        .plugin-item {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .plugin-header {
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 500;
+        }
+        .plugin-header:hover { background: rgba(0, 212, 255, 0.1); }
+        .plugin-header i { transition: 0.3s; color: #00d4ff; }
+
+        .plugin-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .plugin-item.active .plugin-content { max-height: 800px; }
+        .plugin-item.active .plugin-header i { transform: rotate(180deg); }
+
+        .code-wrapper { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+        .scroll-box {
+            background: #050a10;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #00d4ff44;
+            max-height: 350px;
+            overflow: auto;
+        }
+
+        .scroll-box::-webkit-scrollbar { width: 6px; height: 6px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: #00d4ff; border-radius: 10px; }
+
+        pre {
+            color: #a0eaff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            align-self: flex-end;
+            padding: 8px 18px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .copy-btn:hover { background: #00d4ff; color: #000; }
+
+        .home-link { 
+            display: inline-block; margin-top: 40px; color: #00d4ff; 
+            text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #00d4ff; 
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="stars"></div>
+
+    <div class="glass-box">
+        <h1><i class="fas fa-microchip"></i> Plugins Store</h1>
+
+        <div class="ads-container">
+            <script async="async" data-cfasync="false" src="https://pl28409004.effectivegatecpm.com/04fde588c8c3c4ebc19bb82d26eddcf6/invoke.js"></script>
+            <div id="container-04fde588c8c3c4ebc19bb82d26eddcf6"></div>
+        </div>
+        <div class="plugin-list">
+            
+            <div class="plugin-item">
+                <div class="plugin-header">
+                    <span>Profile Picture Downloader</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="plugin-content">
+                    <div class="code-wrapper">
+                        <div class="scroll-box">
+                            <pre id="code1">
+const { cmd } = require("../command");
+cmd({
+    pattern: "getdp",
+    react: "👤",
+    desc: "Get profile picture",
+    category: "media",
+    filename: __filename
+}, async (zanta, mek, m, { from, q, reply, mentionUser }) => {
+    try {
+        let targetJid = mentionUser[0] || (m.quoted ? m.quoted.sender : from);
+        const url = await zanta.profilePictureUrl(targetJid, 'image');
+        if (!url) return reply("❌ No DP found.");
+        await zanta.sendMessage(from, { image: { url }, caption: "*✅ Done!*" }, { quoted: mek });
+    } catch (e) { reply("🚨 Error: " + e.message); }
+});</pre>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('code1', this)"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plugin-item">
+                <div class="plugin-header">
+                    <span>Status Saver</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="plugin-content">
+                    <div class="code-wrapper">
+                        <div class="scroll-box">
+                            <pre id="code2">
+const { cmd } = require("../command");
+cmd({
+    pattern: "send",
+    react: "📥",
+    desc: "Download status",
+    category: "media",
+    filename: __filename
+}, async (zanta, mek, m, { from, reply }) => {
+    if (!m.quoted) return reply("❌ Reply to a status!");
+    const media = await m.quoted.download();
+    const type = m.quoted.type;
+    if (type === 'imageMessage') await zanta.sendMessage(from, { image: media, caption: "✅ Saved" });
+    else if (type === 'videoMessage') await zanta.sendMessage(from, { video: media, caption: "✅ Saved" });
+});</pre>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('code2', this)"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plugin-item">
+                <div class="plugin-header">
+                    <span>Ping CMD</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="plugin-content">
+                    <div class="code-wrapper">
+                        <div class="scroll-box">
+                            <pre id="code3">
+const { cmd } = require("../command");
+const os = require('os');
+const { runtime } = require('../lib/functions');
+
+const STATUS_IMAGE_URL = "https://github.com/Akashkavindu/ZANTA_MD/blob/main/images/alive-new.jpg?raw=true";
+
+function bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Byte';
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+cmd({
+    pattern: "ping",
+    alias: ["status", "info"],
+    react: "⚙️",
+    desc: "Check bot speed and system status.",
+    category: "main",
+    filename: __filename,
+},
+async (zanta, mek, m, { from, reply }) => {
+    try {
+        const startTime = Date.now();
+        const loadingMsg = await reply("*⚙️ Bot තොරතුරු එකතු කරමින්...*");
+        const botName = global.CURRENT_BOT_SETTINGS.botName;
+        const memoryUsage = process.memoryUsage();
+        const latency = Date.now() - startTime;
+        const statusMessage = `*╭━━━*「 *${botName} STATUS* 」*━━━╮*\n*┃ ⏱️ Response:* ${latency} ms\n*┃ ⏳ Uptime:* ${runtime(process.uptime())}\n*┃ 🌐 Platform:* ${os.platform()}\n*┃ 💻 Node:* ${process.version}\n*╰━━━━━━━━━━━━━━━━━━╯*\n\n*╭━━━*「 *System Resources* 」*━━━╮*\n*┃ 🧠 Process RAM:* ${bytesToSize(memoryUsage.rss)}\n*┃ 📊 Total RAM:* ${bytesToSize(os.totalmem())}\n*┃ 📊 Free RAM:* ${bytesToSize(os.freemem())}\n*╰━━━━━━━━━━━━━━━━━━╯*`;
+        await zanta.sendMessage(from, { image: { url: STATUS_IMAGE_URL }, caption: statusMessage.trim() }, { quoted: mek });
+        await zanta.sendMessage(from, { delete: loadingMsg.key });
+    } catch (e) {
+        reply(`*🚨 Error:* ${e.message}`);
+    }
+});</pre>
+                        </div>
+                        <button class="copy-btn" onclick="copyCode('code3', this)"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="home-link">← Return to Home</a>
+    </div>
+
+    <audio id="bgMusic" loop><source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2.5 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 5 + 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        document.querySelectorAll('.plugin-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                document.querySelectorAll('.plugin-item').forEach(i => {
+                    if(i !== item) i.classList.remove('active');
+                });
+                item.classList.toggle('active');
+            });
+        });
+
+        function copyCode(id, btn) {
+            const code = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                
+                // Popunder එක ට්‍රිගර් වීමට උපකාරී වේ
+                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+            });
+        }
+
+        window.addEventListener('click', () => { document.getElementById('bgMusic').play(); }, { once: true });
+    </script>
+
+    <script src="https://pl28408717.effectivegatecpm.com/00/6e/30/006e304b5ab96fb51a608263d55d1a7e.js"></script>
+
+</body>
+</html>
