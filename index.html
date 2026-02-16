@@ -1,150 +1,737 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZANTA-MD | Deploy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ZANTA-MINI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { 
-            background: #000; 
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            overflow: hidden;
-            color: #fff;
-        }
-
-        /* ✨ Animated Space Background */
-        .stars-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, #0a1a2d 0%, #000 100%);
-        }
-
-        .star {
-            position: absolute; background: #b6e3ff; border-radius: 50%;
-            opacity: 0.5; animation: move linear infinite;
-        }
-
-        @keyframes move {
-            from { transform: translateY(100vh); opacity: 0; }
-            to { transform: translateY(-10vh); opacity: 0.8; }
-        }
-
-        /* 💎 Deploy Glass Box */
-        .deploy-card {
-            width: 90%;
-            max-width: 450px;
-            padding: 50px 30px;
-            background: rgba(0, 212, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 40px;
-            text-align: center;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
-            animation: fadeIn 1.2s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .icon-box {
-            font-size: 50px;
-            margin-bottom: 20px;
-            color: #00d4ff;
-            filter: drop-shadow(0 0 10px #00d4ff);
-        }
-
-        h2 { font-size: 2rem; margin-bottom: 10px; color: #00d4ff; }
-        p { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 35px; }
-
-        /* 🚀 Deploy Button */
-        .deploy-btn {
-            display: inline-block;
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease;
+            overflow-x: hidden !important;
             width: 100%;
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #000;
-            background: #00d4ff;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: 0.4s;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-            border: none;
-            cursor: pointer;
         }
 
-        .deploy-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 35px rgba(0, 212, 255, 0.7);
-            background: #fff;
+        #main-header {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            z-index: 9999 !important;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
-        .music-status {
-            margin-top: 30px;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #00d4ff;
-            opacity: 0.6;
-            text-transform: uppercase;
+        .dark #main-header {
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .float-anim {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        [data-aos] {
+            pointer-events: none;
+        }
+
+        .aos-animate {
+            pointer-events: auto;
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #mobile-menu.active {
+            max-height: 600px;
+            opacity: 1;
+            border-bottom-width: 1px;
+        }
+
+        #chatWindow {
+            transform: scale(0.95) translateY(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        #chatWindow {
+            transform: scale(0.95) translateY(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        #chatWindow.active {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #chatMessages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #chatMessages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #chatMessages::-webkit-scrollbar-thumb {
+            background: #5951fb;
+            border-radius: 2px;
+        }
+
+        .dark #chatMessages::-webkit-scrollbar-thumb {
+            background: #5951fb;
+        }
+
+        .user-message .message-bubble {
+            background: #5951fb;
+            color: white;
+            border-radius: 12px 12px 0 12px;
+        }
+
+        .ai-message .message-bubble {
+            background: #f3f4f6;
+            color: #1f2937;
+            border-radius: 12px 12px 12px 0;
+        }
+
+        .dark .ai-message .message-bubble {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+
+        @media (max-width: 640px) {
+            #aiChatWidget {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            #chatWindow {
+                width: calc(100vw - 2rem);
+                height: 550px;
+                bottom: 4rem;
+            }
+
+            #chatMessages {
+                max-height: calc(550px - 160px);
+            }
+        }
+
+        @media (max-width: 380px) {
+            #chatWindow {
+                width: calc(100vw - 1rem);
+            }
         }
     </style>
 </head>
-<body>
 
-    <div class="stars-container" id="stars"></div>
+<body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-white pt-24">
 
-    <div class="deploy-card">
-        <div class="icon-box">🚀</div>
-        <h2>Ready to Launch?</h2>
-        <p>Click below to deploy ZANTA-MD to your server and start the adventure.</p>
-        
-        <a href="home.html" class="deploy-btn">DEPLOY NOW</a>
+    <header id="main-header" class="border-b border-slate-200/50 dark:border-slate-800/50">
+        <div class="container mx-auto px-4 md:px-10 h-16 md:h-20 flex items-center justify-between">
 
-        <div class="music-status">🎵 Playing Song...</div>
+            <a href="#" class="flex items-center space-x-2 shrink-0">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-bolt text-white text-sm"></i>
+                </div>
+                <span class="text-xl font-bold dark:text-white uppercase tracking-tight">ZANTA<span
+                        class="text-blue-600">MINI</span></span>
+            </a>
+
+            <nav class="hidden lg:flex items-center space-x-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <a href="home.html" class="hover:text-blue-600 transition">Deploy</a>
+            </nav>
+
+        </div>
+
+    </header>
+
+    <section class="relative pt-10 pb-24 px-6">
+        <div class="container mx-auto text-center" data-aos="zoom-in" data-aos-duration="1000">
+            <h1 class="text-5xl md:text-8xl font-extrabold mb-8 tracking-tighter float-anim">
+                Elevate Your <span
+                    class="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">Digital Game</span>
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-lg md:text-xl max-w-3xl mx-auto mb-12">
+                The hub for Free Bots, Social Boosting, and AI automation. Secure, fast, and always online.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-5">
+                <a href="home.html"
+                    class="px-10 py-4 bg-blue-600 rounded-2xl font-bold text-white shadow-lg shadow-blue-600/40 hover:bg-blue-700 transition">Explore
+                    Services</a>
+                <button onclick="toggleDarkMode()"
+                    class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 glass-card">
+                    <i id="theme-icon" class="fa-solid fa-moon text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-10 text-center">
+        <p class="text-slate-500 text-sm">© 2026 ZANTA-MINI.</p>
+    </footer>
+    <div id="aiChatWidget" class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50">
+        <button id="chatToggleBtn"
+            class="w-12 h-12 md:w-14 md:h-14 bg-[#5951fb] rounded-full shadow-lg flex items-center justify-center text-white hover:opacity-90 transition-opacity">
+            <i class="fas fa-comment text-lg md:text-xl"></i>
+        </button>
+
+        <div id="chatWindow"
+            class="absolute bottom-14 md:bottom-16 right-0 w-[calc(100vw-2rem)] md:w-96 max-w-md h-[550px] md:h-[600px] bg-white dark:bg-[#0d0d1c] rounded-lg border border-gray-200 dark:border-gray-800 shadow-xl flex flex-col overflow-hidden transition-all duration-200 transform scale-0 opacity-0 origin-bottom-right">
+            <div class="bg-[#5951fb] p-3 md:p-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div
+                            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 flex items-center justify-center border border-white/30">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-2 h-2 md:w-3 md:h-3 bg-green-400 border-2 border-[#5951fb] rounded-full">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm md:text-base leading-tight">AI Assistant</h3>
+                        <p class="text-xs text-white/80">Online •zanta Labs</p>
+                    </div>
+                </div>
+                <button id="closeChatBtn" class="hover:bg-white/10 rounded-lg p-1 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-white dark:bg-[#100f23]">
+                <div class="flex items-end gap-3 max-w-[90%] md:max-w-[85%]">
+                    <div
+                        class="bg-[#5951fb]/20 aspect-square rounded-full w-6 h-6 md:w-8 md:h-8 shrink-0 flex items-center justify-center border border-[#5951fb]/30">
+                        <i class="fas fa-robot text-[#5951fb] text-xs"></i>
+                    </div>
+                    <div class="flex flex-col gap-1 items-start">
+                        <p class="text-[#5951fb] text-[10px] md:text-[11px] font-bold uppercase tracking-wider ml-1">AI
+                            Assistant</p>
+                        <div
+                            class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-bl-none px-3 md:px-4 py-2 md:py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700">
+                            Hi! I'm your AI assistant. How can I help you today?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 flex-wrap pl-8 md:pl-11">
+                    <button
+                        class="quick-action h-7 md:h-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#5951fb]/50 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 md:px-4 transition-all text-xs font-medium text-gray-700 dark:text-gray-300"
+                        data-action="code">
+                        Code Help
+                    </button>
+                    <button
+                        class="quick-action h-7 md:h-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#5951fb]/50 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 md:px-4 transition-all text-xs font-medium text-gray-700 dark:text-gray-300"
+                        data-action="write">
+                        Writing
+                    </button>
+                    <button
+                        class="quick-action h-7 md:h-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-[#5951fb]/50 hover:bg-gray-200 dark:hover:bg-gray-700 px-3 md:px-4 transition-all text-xs font-medium text-gray-700 dark:text-gray-300"
+                        data-action="explain">
+                        Explain
+                    </button>
+                </div>
+            </div>
+
+            <div id="typingIndicator"
+                class="hidden px-4 py-3 bg-white dark:bg-[#100f23] border-t border-gray-200 dark:border-gray-800">
+                <div class="flex items-end gap-3 max-w-[85%]">
+                    <div class="bg-[#5951fb]/10 rounded-full w-6 h-6 md:w-8 md:h-8 flex items-center justify-center">
+                        <i class="fas fa-robot text-[#5951fb] text-xs"></i>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-800 rounded-full px-4 py-2 flex gap-1 items-center">
+                        <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse"></div>
+                        <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse delay-150"></div>
+                        <div class="w-1 h-1 bg-gray-400 rounded-full animate-pulse delay-300"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3 md:p-4 bg-white dark:bg-[#100f23] border-t border-gray-200 dark:border-gray-800">
+                <div
+                    class="relative flex items-center gap-2 bg-gray-100 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 p-1 focus-within:border-[#5951fb]/50 transition-colors">
+                    <textarea id="chatInput"
+                        class="flex-1 bg-transparent border-none focus:ring-0 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm py-2 px-3 resize-none max-h-20"
+                        placeholder="Type your message..." rows="1"></textarea>
+                    <button id="sendButton"
+                        class="w-8 h-8 md:w-9 md:h-9 bg-[#5951fb] text-white rounded-lg flex items-center justify-center hover:bg-[#5951fb]/90 transition-colors shadow">
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
+                <div class="mt-2 text-center">
+                    <p class="text-[10px] text-gray-500 dark:text-gray-600 uppercase tracking-wider font-medium">Powered
+                        by D & Z Labs</p>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <audio id="bgMusic" loop>
-        <source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg">
-    </audio>
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 🌟 Create Stars
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 60; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 2 + 'px';
-            star.style.width = size; star.style.height = size;
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDuration = Math.random() * 4 + 2 + 's';
-            starsContainer.appendChild(star);
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_67UNhad_m-LbjfmY17-FkcWoxntTnCw",
+            authDomain: "dz-page.firebaseapp.com",
+            projectId: "dz-page",
+            storageBucket: "dz-page.firebasestorage.app",
+            messagingSenderId: "280353031470",
+            appId: "1:280353031470:web:9095121dffa663ae0e26bf"
+        };
+        firebase.initializeApp(firebaseConfig);
 
-        // 🎵 Smart Music Logic (Page transition sync)
-        const audio = document.getElementById('bgMusic');
+        const authLoading = document.getElementById('auth-loading');
+        const loginBtnDt = document.getElementById('login-btn-dt');
+        const userProfileDt = document.getElementById('user-profile-dt');
+        const loginBtnMb = document.getElementById('login-btn-mb');
+        const userInfoMb = document.getElementById('user-info-mb');
+        const menuBtn = document.getElementById('mobile-menu-btn');
 
-        // කලින් පිටුවේ සින්දුව නතර වුණු තැන ලබා ගැනීම
-        window.addEventListener('load', () => {
-            const savedTime = localStorage.getItem('musicTime');
-            if (savedTime) audio.currentTime = savedTime;
-            
-            // User කොහේ හරි click කළ ගමන් සින්දුව පටන් ගන්නවා
-            document.body.addEventListener('click', () => {
-                audio.play();
-            }, { once: true });
+        firebase.auth().onAuthStateChanged((user) => {
+            if (authLoading) authLoading.classList.add('hidden');
+            if (user) {
+                loginBtnDt.classList.add('hidden');
+                loginBtnMb.classList.add('hidden');
+                userProfileDt.classList.remove('hidden');
+                userInfoMb.classList.remove('hidden');
+                const displayName = user.displayName || user.email.split('@')[0];
+                const photo = user.photoURL || `https://ui-avatars.com/api/?name=${displayName}&background=2563eb&color=fff&bold=true`;
+                document.getElementById('user-img-dt').src = photo;
+                document.getElementById('user-name-dt').innerText = displayName;
+                document.getElementById('user-img-mb').src = photo;
+                document.getElementById('user-name-mb').innerText = displayName;
+                menuBtn.innerHTML = `<img src="${photo}" class="w-full h-full object-cover rounded-full border border-blue-600">`;
+            } else {
+                loginBtnDt.classList.remove('hidden');
+                loginBtnMb.classList.remove('hidden');
+                userProfileDt.classList.add('hidden');
+                userInfoMb.classList.add('hidden');
+                menuBtn.innerHTML = `<i class="fa-solid fa-bars-staggered text-lg" id="menu-icon"></i>`;
+            }
         });
 
-        // සෑම තත්පරයකම දැනට සින්දුව තියෙන වෙලාව Save කරගන්නවා
-        setInterval(() => {
-            localStorage.setItem('musicTime', audio.currentTime);
-        }, 1000);
+        function logout() { firebase.auth().signOut().then(() => window.location.reload()); }
+
+        AOS.init({ duration: 800, once: false, mirror: true });
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-xl' : 'fa-solid fa-moon text-xl';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        const menu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('active');
+            const iconElement = document.getElementById('menu-icon');
+            if (iconElement) {
+                iconElement.className = menu.classList.contains('active') ? 'fa-solid fa-xmark text-xl' : 'fa-solid fa-bars-staggered text-xl';
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                menu.classList.remove('active');
+                const iconElement = document.getElementById('menu-icon');
+                if (iconElement) iconElement.className = 'fa-solid fa-bars-staggered text-xl';
+            }
+        });
+
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            if (document.getElementById('theme-icon')) document.getElementById('theme-icon').className = 'fa-solid fa-sun text-xl';
+        }
+
+
+        const API_ENDPOINT = "https://chat-widget-blue.vercel.app/api/chat";
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const quickActions = document.querySelectorAll('.quick-action');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+
+        let isChatOpen = false;
+        let isStreaming = false;
+        let messageHistory = [
+            {
+                role: "assistant",
+                content: "Hi! I'm your AI assistant. How can I help you today?"
+            }
+        ];
+
+        const CONVERSATION_KEY = 'dzpage_chat_history';
+        const MAX_HISTORY_LENGTH = 20;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadConversationHistory();
+            setupEventListeners();
+        });
+
+        function loadConversationHistory() {
+            try {
+                const saved = localStorage.getItem(CONVERSATION_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        messageHistory = parsed;
+                        renderSavedMessages();
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading conversation:', e);
+                messageHistory = [
+                    {
+                        role: "assistant",
+                        content: "Hi! I'm your AI assistant. How can I help you today?"
+                    }
+                ];
+            }
+        }
+
+        function saveConversationHistory() {
+            try {
+                localStorage.setItem(CONVERSATION_KEY, JSON.stringify(messageHistory));
+            } catch (e) {
+                console.error('Error saving conversation:', e);
+            }
+        }
+
+        function renderSavedMessages() {
+            chatMessages.innerHTML = '';
+
+            messageHistory.forEach((msg, index) => {
+                if (index === 0) return;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex ${msg.role === 'user' ? 'justify-end user-message' : 'justify-start ai-message'}`;
+
+                if (msg.role === 'user') {
+                    messageDiv.innerHTML = `
+                <div class="flex flex-col gap-1 items-end self-end max-w-[90%] md:max-w-[85%]">
+                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-[11px] font-bold uppercase tracking-wider mr-1">You</p>
+                    <div class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-br-none px-3 md:px-4 py-2 md:py-3 bg-[#5951fb] text-white message-bubble">
+                        ${msg.content}
+                    </div>
+                </div>
+            `;
+                } else {
+                    messageDiv.innerHTML = `
+                <div class="flex items-end gap-3 max-w-[90%] md:max-w-[85%]">
+                    <div class="bg-[#5951fb]/20 aspect-square rounded-full w-6 h-6 md:w-8 md:h-8 shrink-0 flex items-center justify-center border border-[#5951fb]/30">
+                        <i class="fas fa-robot text-[#5951fb] text-xs"></i>
+                    </div>
+                    <div class="flex flex-col gap-1 items-start">
+                        <p class="text-[#5951fb] text-[10px] md:text-[11px] font-bold uppercase tracking-wider ml-1">AI Assistant</p>
+                        <div class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-bl-none px-3 md:px-4 py-2 md:py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 message-bubble">
+                            ${msg.content}
+                        </div>
+                    </div>
+                </div>
+            `;
+                }
+
+                chatMessages.appendChild(messageDiv);
+            });
+
+            scrollToBottom();
+        }
+
+        function setupEventListeners() {
+            chatToggleBtn.addEventListener('click', toggleChatWindow);
+            closeChatBtn.addEventListener('click', toggleChatWindow);
+            sendButton.addEventListener('click', sendMessage);
+
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !isStreaming) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            chatInput.addEventListener('input', function () {
+                autoResizeTextarea(this);
+            });
+
+            quickActions.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const action = e.target.dataset.action;
+                    let prompt = '';
+
+                    switch (action) {
+                        case 'code':
+                            prompt = "Help me with some coding problems.";
+                            break;
+                        case 'write':
+                            prompt = "Help me write something creative.";
+                            break;
+                        case 'explain':
+                            prompt = "Explain a complex topic in simple terms.";
+                            break;
+                    }
+
+                    chatInput.value = prompt;
+                    autoResizeTextarea(chatInput);
+                    chatInput.focus();
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (isChatOpen &&
+                    !chatWindow.contains(e.target) &&
+                    !chatToggleBtn.contains(e.target) &&
+                    window.innerWidth <= 768) {
+                    toggleChatWindow();
+                }
+            });
+
+            if (clearChatBtn) {
+                clearChatBtn.addEventListener('click', clearChatHistory);
+            }
+        }
+
+        function toggleChatWindow() {
+            isChatOpen = !isChatOpen;
+            chatWindow.classList.toggle('active', isChatOpen);
+
+            if (isChatOpen) {
+                setTimeout(() => chatInput.focus(), 200);
+                setTimeout(() => scrollToBottom(), 200);
+            }
+        }
+
+        function clearChatHistory() {
+            messageHistory = [
+                {
+                    role: "assistant",
+                    content: "Hi! I'm your AI assistant. How can I help you today?"
+                }
+            ];
+
+            saveConversationHistory();
+            chatMessages.innerHTML = '';
+
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'flex justify-start ai-message';
+            welcomeDiv.innerHTML = `
+        <div class="flex items-end gap-3 max-w-[90%] md:max-w-[85%]">
+            <div class="bg-[#5951fb]/20 aspect-square rounded-full w-6 h-6 md:w-8 md:h-8 shrink-0 flex items-center justify-center border border-[#5951fb]/30">
+                <i class="fas fa-robot text-[#5951fb] text-xs"></i>
+            </div>
+            <div class="flex flex-col gap-1 items-start">
+                <p class="text-[#5951fb] text-[10px] md:text-[11px] font-bold uppercase tracking-wider ml-1">AI Assistant</p>
+                <div class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-bl-none px-3 md:px-4 py-2 md:py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 message-bubble">
+                    Hi! I'm your AI assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+    `;
+
+            chatMessages.appendChild(welcomeDiv);
+            scrollToBottom();
+        }
+
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 80) + 'px';
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addMessageToUI(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${role === 'user' ? 'justify-end user-message' : 'justify-start ai-message'}`;
+
+            if (role === 'user') {
+                messageDiv.innerHTML = `
+            <div class="flex flex-col gap-1 items-end self-end max-w-[90%] md:max-w-[85%]">
+                <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-[11px] font-bold uppercase tracking-wider mr-1">You</p>
+                <div class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-br-none px-3 md:px-4 py-2 md:py-3 bg-[#5951fb] text-white message-bubble">
+                    ${content}
+                </div>
+            </div>
+        `;
+            } else {
+                messageDiv.innerHTML = `
+            <div class="flex items-end gap-3 max-w-[90%] md:max-w-[85%]">
+                <div class="bg-[#5951fb]/20 aspect-square rounded-full w-6 h-6 md:w-8 md:h-8 shrink-0 flex items-center justify-center border border-[#5951fb]/30">
+                    <i class="fas fa-robot text-[#5951fb] text-xs"></i>
+                </div>
+                <div class="flex flex-col gap-1 items-start">
+                    <p class="text-[#5951fb] text-[10px] md:text-[11px] font-bold uppercase tracking-wider ml-1">AI Assistant</p>
+                    <div class="text-sm font-normal leading-relaxed rounded-lg md:rounded-xl rounded-bl-none px-3 md:px-4 py-2 md:py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 message-bubble">
+                        ${content}
+                    </div>
+                </div>
+            </div>
+        `;
+            }
+
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+
+            return messageDiv.querySelector('.message-bubble');
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.classList.remove('hidden');
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.classList.add('hidden');
+        }
+
+        async function sendMessage() {
+            if (isStreaming) return;
+
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessageToUI('user', message);
+            messageHistory.push({ role: "user", content: message });
+
+            if (messageHistory.length > MAX_HISTORY_LENGTH * 2) {
+                messageHistory = [
+                    messageHistory[0],
+                    ...messageHistory.slice(-(MAX_HISTORY_LENGTH * 2 - 1))
+                ];
+            }
+
+            chatInput.value = '';
+            autoResizeTextarea(chatInput);
+
+            showTypingIndicator();
+
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+            isStreaming = true;
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        history: messageHistory.slice(0, -1)
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let aiResponse = '';
+                let messageElement = null;
+                let hasMessageStarted = false;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    aiResponse += chunk;
+
+                    if (!hasMessageStarted) {
+                        hideTypingIndicator();
+                        messageElement = addMessageToUI('assistant', aiResponse);
+                        hasMessageStarted = true;
+                    } else {
+                        messageElement.innerHTML = aiResponse;
+                    }
+
+                    scrollToBottom();
+
+                    await new Promise(resolve => setTimeout(resolve, 20));
+                }
+
+                messageHistory.push({ role: "assistant", content: aiResponse });
+                saveConversationHistory();
+
+            } catch (error) {
+                console.error('Error:', error);
+
+                hideTypingIndicator();
+
+                const errorMessage = error.message.includes('Failed to fetch')
+                    ? 'Network error. Please check your connection.'
+                    : `Error: ${error.message}`;
+
+                addMessageToUI('assistant', errorMessage);
+                messageHistory.pop();
+
+            } finally {
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                isStreaming = false;
+                chatInput.focus();
+                scrollToBottom();
+            }
+        }
     </script>
 </body>
+
 </html>
