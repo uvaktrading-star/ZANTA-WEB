@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZANTA-MD | Deploy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background: #000; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* ✨ Animated Space Background */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0a1a2d 0%, #000 100%);
+        }
+
+        .star {
+            position: absolute; background: #b6e3ff; border-radius: 50%;
+            opacity: 0.5; animation: move linear infinite;
+        }
+
+        @keyframes move {
+            from { transform: translateY(100vh); opacity: 0; }
+            to { transform: translateY(-10vh); opacity: 0.8; }
+        }
+
+        /* 💎 Deploy Glass Box */
+        .deploy-card {
+            width: 90%;
+            max-width: 450px;
+            padding: 50px 30px;
+            background: rgba(0, 212, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 40px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .icon-box {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            filter: drop-shadow(0 0 10px #00d4ff);
+        }
+
+        h2 { font-size: 2rem; margin-bottom: 10px; color: #00d4ff; }
+        p { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 35px; }
+
+        /* 🚀 Deploy Button */
+        .deploy-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000;
+            background: #00d4ff;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: 0.4s;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+
+        .deploy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(0, 212, 255, 0.7);
+            background: #fff;
+        }
+
+        .music-status {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #00d4ff;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="stars"></div>
+
+    <div class="deploy-card">
+        <div class="icon-box">🚀</div>
+        <h2>Ready to Launch?</h2>
+        <p>Click below to deploy ZANTA-MD to your server and start the adventure.</p>
+        
+        <a href="home.html" class="deploy-btn">DEPLOY NOW</a>
+
+        <div class="music-status">🎵 Playing Song...</div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 🌟 Create Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 4 + 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // 🎵 Smart Music Logic (Page transition sync)
+        const audio = document.getElementById('bgMusic');
+
+        // කලින් පිටුවේ සින්දුව නතර වුණු තැන ලබා ගැනීම
+        window.addEventListener('load', () => {
+            const savedTime = localStorage.getItem('musicTime');
+            if (savedTime) audio.currentTime = savedTime;
+            
+            // User කොහේ හරි click කළ ගමන් සින්දුව පටන් ගන්නවා
+            document.body.addEventListener('click', () => {
+                audio.play();
+            }, { once: true });
+        });
+
+        // සෑම තත්පරයකම දැනට සින්දුව තියෙන වෙලාව Save කරගන්නවා
+        setInterval(() => {
+            localStorage.setItem('musicTime', audio.currentTime);
+        }, 1000);
+    </script>
+</body>
+</html>
