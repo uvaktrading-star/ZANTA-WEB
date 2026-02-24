@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* ඔයාගේ මුල් Style ටික ඒ විදිහටම තියෙනවා */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #000; min-height: 100vh; overflow-x: hidden; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; padding: 80px 0 120px 0; }
         .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: radial-gradient(circle at center, #0a1a2d 0%, #000000 100%); }
@@ -21,12 +20,12 @@
         .logo-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         
         h1 { color: #00d4ff; font-size: 1.8rem; margin-bottom: 20px; letter-spacing: 2px; }
-        h3 { font-size: 0.9rem; color: #00d4ff; margin: 20px 0 10px 0; text-align: left; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 5px; }
-
+        
         .settings-list { text-align: left; margin: 20px 0; display: flex; flex-direction: column; gap: 12px; }
         .setting-field { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.1); }
         .setting-field label { display: block; font-size: 0.75rem; color: #00d4ff; margin-bottom: 5px; }
         .setting-field input, .setting-field select { width: 100%; background: transparent; border: none; color: white; outline: none; font-size: 0.9rem; }
+        .setting-field option { background: #0a1a2d; color: white; }
         
         .setting-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 12px 18px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.1); }
         .setting-info h4 { font-size: 0.85rem; color: #fff; font-weight: 500; }
@@ -46,6 +45,7 @@
         .btn-add { background: #00d4ff; color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .reply-list { margin-top: 10px; max-height: 150px; overflow-y: auto; }
         .reply-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; font-size: 0.75rem; }
+        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 1000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: 0.3s; }
         .modal-overlay.active { visibility: visible; opacity: 1; }
         .modal-content { background: rgba(10, 26, 45, 0.95); border: 1px solid #00d4ff; padding: 30px; border-radius: 30px; text-align: center; color: #fff; max-width: 400px; width: 90%; }
@@ -59,8 +59,8 @@
 
     <div class="modal-overlay" id="popupModal">
         <div class="modal-content">
-            <h3 style="border:none; text-align:center;">Notice</h3>
-            <p style="margin-bottom: 25px;">ඔබ මෙහි සිදු කරන වෙනස්කම් Bot පද්ධතිය තුළ ක්‍රියාත්මක වීමට සුළු කාලයක් ගතවිය හැකිය.</p>
+            <h3 style="border:none; text-align:center; color:#00d4ff; margin-bottom:15px;">System Notice</h3>
+            <p style="margin-bottom: 25px; font-size: 0.9rem;">ඔබ මෙහි සිදු කරන වෙනස්කම් Bot පද්ධතිය තුළ ක්‍රියාත්මක වීමට සුළු කාලයක් ගතවිය හැකිය.</p>
             <button class="btn-add" onclick="closePopup()" style="width:100%">I Understand</button>
         </div>
     </div>
@@ -74,12 +74,13 @@
 
         <h1>CONTROL PANEL</h1>
 
-        <div class="settings-list">
-            <h3>General Settings</h3>
+        <div class="settings-list" id="mainSettingsList">
             <div class="setting-field"><label>Bot Name</label><input type="text" id="botName"></div>
             <div class="setting-field"><label>Owner Name</label><input type="text" id="ownerName"></div>
+            <div class="setting-field"><label>Bot Image URL</label><input type="text" id="botImage"></div>
             <div class="setting-field"><label>Dashboard Password</label><input type="text" id="password"></div>
             <div class="setting-field"><label>Prefix</label><input type="text" id="prefix" maxlength="1"></div>
+            
             <div class="setting-field">
                 <label>Work Type</label>
                 <select id="workType">
@@ -88,7 +89,15 @@
                 </select>
             </div>
 
-            <h3>Automations</h3>
+            <div class="setting-field">
+                <label>Anti-Delete Mode</label>
+                <select id="antidelete">
+                    <option value="false">Off</option>
+                    <option value="user">Send to User Chat</option>
+                    <option value="owner">Send to Your Chat (Owner)</option>
+                </select>
+            </div>
+
             <div class="setting-item">
                 <div class="setting-info"><h4>Always Online</h4><p>Stay active 24/7</p></div>
                 <label class="switch"><input type="checkbox" id="alwaysOnline"><span class="slider"></span></label>
@@ -110,38 +119,50 @@
                 <label class="switch"><input type="checkbox" id="autoVoice"><span class="slider"></span></label>
             </div>
             <div class="setting-item">
+                <div class="setting-info"><h4>Auto Voice Reply</h4><p>Automatic audio responses</p></div>
+                <label class="switch"><input type="checkbox" id="autoVoiceReply"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
                 <div class="setting-info"><h4>Auto React</h4><p>React to messages</p></div>
                 <label class="switch"><input type="checkbox" id="autoReact"><span class="slider"></span></label>
             </div>
-
-            <h3>🛡️ Security & Group Settings</h3>
             <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Delete</h4><p>Prevent message deletion</p></div>
-                <label class="switch"><input type="checkbox" id="antidelete"><span class="slider"></span></label>
+                <div class="setting-info"><h4>Auto Status Seen</h4><p>View status automatically</p></div>
+                <label class="switch"><input type="checkbox" id="autoStatusSeen"><span class="slider"></span></label>
             </div>
             <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Link</h4><p>Remove link senders</p></div>
+                <div class="setting-info"><h4>Auto Status React</h4><p>React to statuses</p></div>
+                <label class="switch"><input type="checkbox" id="autoStatusReact"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info"><h4>Anti-Link</h4><p>Block link senders</p></div>
                 <label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label>
             </div>
             <div class="setting-item">
-                <div class="setting-info"><h4>Bad Words Filter</h4><p>Auto kick bad word users</p></div>
+                <div class="setting-info"><h4>Bad Words Filter</h4><p>Kick bad word users</p></div>
                 <label class="switch"><input type="checkbox" id="badWords"><span class="slider"></span></label>
             </div>
             <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Command</h4><p>Block commands in group</p></div>
+                <div class="setting-info"><h4>Anti-Command</h4><p>Block group commands</p></div>
                 <label class="switch"><input type="checkbox" id="antiCmd"><span class="slider"></span></label>
             </div>
-
-            <h3>Auto Reply Configuration</h3>
             <div class="setting-item">
-                <div class="setting-info"><h4>Auto reply</h4><p>Keyword Replies</p></div>
+                <div class="setting-info"><h4>Connection Msg</h4><p>Notify on startup</p></div>
+                <label class="switch"><input type="checkbox" id="connectionMsg"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info"><h4>Buttons Mode</h4><p>Enable button menus</p></div>
+                <label class="switch"><input type="checkbox" id="buttons"><span class="slider"></span></label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info"><h4>Auto Reply</h4><p>Keyword responses</p></div>
                 <label class="switch"><input type="checkbox" id="autoReply"><span class="slider"></span></label>
             </div>
 
             <div class="reply-container">
                 <div class="reply-input-group">
-                    <input type="text" id="kwInput" placeholder="Trigger Word">
-                    <textarea id="repInput" placeholder="Reply Text"></textarea>
+                    <input type="text" id="kwInput" placeholder="If user says (Keyword)">
+                    <textarea id="repInput" placeholder="Bot should reply (Text)"></textarea>
                     <button class="btn-add" onclick="addReply()">ADD KEYWORD</button>
                 </div>
                 <div class="reply-list" id="replyList"></div>
@@ -172,25 +193,29 @@
                 const data = await res.json();
                 if(data.success) {
                     const s = data.settings;
-                    // General Mapping
+                    
                     document.getElementById('botName').value = s.botName || '';
                     document.getElementById('ownerName').value = s.ownerName || '';
+                    document.getElementById('botImage').value = s.botImage || '';
                     document.getElementById('password').value = s.password || '';
                     document.getElementById('prefix').value = s.prefix || '.';
                     document.getElementById('workType').value = s.workType || 'public';
                     
-                    // Boolean/String Mapping
-                    document.getElementById('alwaysOnline').checked = s.alwaysOnline === "true";
-                    document.getElementById('autoRead').checked = s.autoRead === "true";
-                    document.getElementById('readCmd').checked = s.readCmd === "true";
-                    document.getElementById('autoTyping').checked = s.autoTyping === "true";
-                    document.getElementById('autoVoice').checked = s.autoVoice === "true";
-                    document.getElementById('autoReact').checked = s.autoReact === "true";
-                    document.getElementById('antidelete').checked = s.antidelete === "true";
-                    document.getElementById('antiLink').checked = s.antiLink === "true";
-                    document.getElementById('badWords').checked = s.badWords === "true";
-                    document.getElementById('antiCmd').checked = s.antiCmd === "true";
-                    document.getElementById('autoReply').checked = s.autoReply === "true";
+                    // Anti-Delete Select Box Loading
+                    document.getElementById('antidelete').value = s.antidelete || 'false';
+
+                    const toggles = [
+                        'alwaysOnline', 'autoRead', 'readCmd', 'autoTyping', 'autoVoice', 
+                        'autoVoiceReply', 'autoReact', 'autoStatusSeen', 'autoStatusReact', 
+                        'antiLink', 'badWords', 'antiCmd', 'connectionMsg', 
+                        'buttons', 'autoReply'
+                    ];
+
+                    toggles.forEach(id => {
+                        if(document.getElementById(id)) {
+                            document.getElementById(id).checked = s[id] === "true";
+                        }
+                    });
 
                     autoReplies = s.autoReplies || [];
                     renderReplies();
@@ -228,19 +253,25 @@
             const settingsData = {
                 botName: document.getElementById('botName').value,
                 ownerName: document.getElementById('ownerName').value,
+                botImage: document.getElementById('botImage').value,
                 password: document.getElementById('password').value,
                 prefix: document.getElementById('prefix').value,
                 workType: document.getElementById('workType').value,
+                antidelete: document.getElementById('antidelete').value, // Select value
                 alwaysOnline: document.getElementById('alwaysOnline').checked.toString(),
                 autoRead: document.getElementById('autoRead').checked.toString(),
                 readCmd: document.getElementById('readCmd').checked.toString(),
                 autoTyping: document.getElementById('autoTyping').checked.toString(),
                 autoVoice: document.getElementById('autoVoice').checked.toString(),
+                autoVoiceReply: document.getElementById('autoVoiceReply').checked.toString(),
                 autoReact: document.getElementById('autoReact').checked.toString(),
-                antidelete: document.getElementById('antidelete').checked.toString(),
+                autoStatusSeen: document.getElementById('autoStatusSeen').checked.toString(),
+                autoStatusReact: document.getElementById('autoStatusReact').checked.toString(),
                 antiLink: document.getElementById('antiLink').checked.toString(),
                 badWords: document.getElementById('badWords').checked.toString(),
                 antiCmd: document.getElementById('antiCmd').checked.toString(),
+                connectionMsg: document.getElementById('connectionMsg').checked.toString(),
+                buttons: document.getElementById('buttons').checked.toString(),
                 autoReply: document.getElementById('autoReply').checked.toString(),
                 autoReplies: autoReplies
             };
@@ -258,7 +289,7 @@
             finally { saveBtn.innerText = "SAVE & SYNC BOT"; }
         }
 
-        // Stars Background Logic
+        // Stars Background
         const sc = document.getElementById('stars');
         for (let i = 0; i < 40; i++) {
             const s = document.createElement('div');
