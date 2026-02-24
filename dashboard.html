@@ -1,274 +1,625 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ZANTA-MD | Dashboard Control</title>
+
     
+
     <script type='text/javascript' src='//pl28408717.effectivegatecpm.com/00/6e/30/006e304b5ab96fb51a608263d55d1a7e.js'></script>
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     
+
     <style>
-        /* ඔයාගේ මුල් Style ටික ඒ විදිහටම තියෙනවා */
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
         body { background: #000; min-height: 100vh; overflow-x: hidden; overflow-y: auto; display: flex; flex-direction: column; align-items: center; position: relative; padding: 80px 0 120px 0; }
+
         .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: radial-gradient(circle at center, #0a1a2d 0%, #000000 100%); }
+
         .star { position: absolute; background: #b6e3ff; border-radius: 50%; opacity: 0.6; animation: move linear infinite; }
+
         @keyframes move { from { transform: translateY(100vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 0.8; } }
+
         
+
         .glass-box { position: relative; z-index: 10; width: 92%; max-width: 550px; padding: 60px 20px 30px 20px; background: rgba(0, 212, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(182, 227, 255, 0.1); border-radius: 40px; text-align: center; color: #fff; box-shadow: 0 15px 35px rgba(0, 191, 255, 0.1); }
+
         .logo-container { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; background: rgba(0, 212, 255, 0.1); border: 2px solid #00d4ff; border-radius: 50%; padding: 5px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); overflow: hidden; }
+
         .logo-container img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
         
+
         h1 { color: #00d4ff; font-size: 1.8rem; margin-bottom: 20px; letter-spacing: 2px; }
+
         h3 { font-size: 0.9rem; color: #00d4ff; margin: 20px 0 10px 0; text-align: left; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 5px; }
 
+
+
+        .ad-banner-dash { width: 100%; margin: 15px 0; border-radius: 15px; overflow: hidden; background: rgba(255,255,255,0.02); min-height: 50px; }
+
+
+
         .settings-list { text-align: left; margin: 20px 0; display: flex; flex-direction: column; gap: 12px; }
+
         .setting-field { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.1); }
+
         .setting-field label { display: block; font-size: 0.75rem; color: #00d4ff; margin-bottom: 5px; }
+
         .setting-field input, .setting-field select { width: 100%; background: transparent; border: none; color: white; outline: none; font-size: 0.9rem; }
+
+        .setting-field select option { background: #000; color: #fff; }
+
         
+
         .setting-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 12px 18px; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.1); }
+
         .setting-info h4 { font-size: 0.85rem; color: #fff; font-weight: 500; }
+
         .setting-info p { font-size: 0.65rem; color: rgba(255,255,255,0.4); }
 
+
+
+        .reply-container { background: rgba(0, 212, 255, 0.05); padding: 15px; border-radius: 20px; border: 1px dashed rgba(0, 212, 255, 0.3); margin-top: 10px; }
+
+        .reply-input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+
+        .reply-input-group textarea { background: rgba(0,0,0,0.3); border: 1px solid rgba(0,212,255,0.2); padding: 10px; border-radius: 10px; color: #fff; font-size: 0.8rem; min-height: 80px; resize: vertical; outline: none; }
+
+        .reply-input-group input { background: rgba(0,0,0,0.3); border: 1px solid rgba(0,212,255,0.2); padding: 10px; border-radius: 10px; color: #fff; font-size: 0.8rem; outline: none; }
+
+        
+
+        .btn-add { background: #00d4ff; color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        .reply-list { list-style: none; text-align: left; max-height: 150px; overflow-y: auto; margin-top: 10px; }
+
+        .reply-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; font-size: 0.75rem; border: 1px solid rgba(0, 212, 255, 0.1); white-space: pre-wrap; }
+
+        .reply-item span { color: #00d4ff; font-weight: bold; }
+
+        .del-btn { color: #ff4d4d; cursor: pointer; font-weight: bold; margin-left: 10px; }
+
+
+
         .switch { position: relative; display: inline-block; width: 42px; height: 22px; }
+
         .switch input { opacity: 0; width: 0; height: 0; }
+
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px; }
+
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+
         input:checked + .slider { background-color: #00d4ff; }
+
         input:checked + .slider:before { transform: translateX(20px); }
 
+
+
         .btn-update { width: 100%; padding: 15px; border-radius: 30px; background: #00d4ff; color: #000; font-weight: 600; border: none; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); transition: 0.3s; }
-        .reply-container { background: rgba(0, 212, 255, 0.05); padding: 15px; border-radius: 20px; border: 1px dashed rgba(0, 212, 255, 0.3); margin-top: 10px; }
-        .reply-input-group { display: flex; flex-direction: column; gap: 8px; }
-        .reply-input-group textarea, .reply-input-group input { background: rgba(0,0,0,0.3); border: 1px solid rgba(0,212,255,0.2); padding: 10px; border-radius: 10px; color: #fff; font-size: 0.8rem; outline: none; }
-        .btn-add { background: #00d4ff; color: #000; border: none; padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .reply-list { margin-top: 10px; max-height: 150px; overflow-y: auto; }
-        .reply-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; font-size: 0.75rem; }
+
+        .btn-update:hover { transform: scale(1.02); opacity: 0.9; }
+
+        .btn-update:disabled { background: #555; }
+
+        
+
+        .fixed-bottom-ad { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; background: rgba(0,0,0,0.8); display: flex; justify-content: center; padding: 10px 0; }
+
+        .go-home { margin-top: 20px; display: block; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem; }
+
+        .music-info { font-size: 0.65rem; color: #00d4ff; margin-top: 10px; opacity: 0.6; }
+
+
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 1000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: 0.3s; }
+
         .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-content { background: rgba(10, 26, 45, 0.95); border: 1px solid #00d4ff; padding: 30px; border-radius: 30px; text-align: center; color: #fff; max-width: 400px; width: 90%; }
+
+        .modal-content { position: relative; background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); backdrop-filter: blur(25px); padding: 40px 30px; border-radius: 30px; max-width: 400px; width: 90%; text-align: center; color: #fff; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); transform: translateY(20px); transition: 0.3s; }
+
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .close-modal { position: absolute; top: 15px; right: 20px; color: #00d4ff; font-size: 24px; cursor: pointer; font-weight: bold; }
+
+        .btn-contact { display: inline-block; background: #00d4ff; color: #000; padding: 12px 25px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.85rem; transition: 0.3s; }
+
     </style>
+
 </head>
+
 <body>
 
+
+
     <audio id="bgMusic" loop>
+
         <source src="https://files.catbox.moe/5zx7hg.mp3" type="audio/mpeg">
+
     </audio>
 
+
+
     <div class="modal-overlay" id="popupModal">
+
         <div class="modal-content">
-            <h3 style="border:none; text-align:center;">Notice</h3>
-            <p style="margin-bottom: 25px;">ඔබ මෙහි සිදු කරන වෙනස්කම් Bot පද්ධතිය තුළ ක්‍රියාත්මක වීමට සුළු කාලයක් ගතවිය හැකිය.</p>
-            <button class="btn-add" onclick="closePopup()" style="width:100%">I Understand</button>
+
+            <span class="close-modal" onclick="closePopup()">&times;</span>
+
+            <h3 style="border:none; text-align:center; font-size: 1.2rem; margin-top: 0;">Notice</h3>
+
+            <p style="margin-bottom: 25px; font-size: 0.9rem;">ඔබ මෙහි සිදු කරන වෙනස්කම් Bot පද්ධතිය තුළ ක්‍රියාත්මක වීමට පැයක වැනි කාලයක් ගතවිය හැකිය.</p>
+
+            <a href="contact.html" class="btn-contact">Contact Us</a>
+
         </div>
+
     </div>
+
+
 
     <div class="stars-container" id="stars"></div>
 
+
+
     <div class="glass-box">
+
         <div class="logo-container">
+
             <img src="https://github.com/Akashkavindu/ZANTA_MD/blob/main/images/WhatsApp%20Image%202025-12-29%20at%209.28.43%20AM.jpeg?raw=true" alt="Logo">
+
         </div>
+
+
 
         <h1>CONTROL PANEL</h1>
 
-        <div class="settings-list">
-            <h3>General Settings</h3>
-            <div class="setting-field"><label>Bot Name</label><input type="text" id="botName"></div>
-            <div class="setting-field"><label>Owner Name</label><input type="text" id="ownerName"></div>
-            <div class="setting-field"><label>Dashboard Password</label><input type="text" id="password"></div>
-            <div class="setting-field"><label>Prefix</label><input type="text" id="prefix" maxlength="1"></div>
-            <div class="setting-field">
-                <label>Work Type</label>
-                <select id="workType">
-                    <option value="public">Public Mode</option>
-                    <option value="private">Private Mode</option>
-                </select>
-            </div>
 
-            <h3>Automations</h3>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Always Online</h4><p>Stay active 24/7</p></div>
-                <label class="switch"><input type="checkbox" id="alwaysOnline"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Auto Read Msg</h4><p>Read all messages</p></div>
-                <label class="switch"><input type="checkbox" id="autoRead"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Read Commands</h4><p>Mark commands as read</p></div>
-                <label class="switch"><input type="checkbox" id="readCmd"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Auto Typing</h4><p>Show 'typing...' status</p></div>
-                <label class="switch"><input type="checkbox" id="autoTyping"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Auto Voice</h4><p>Fake voice reply</p></div>
-                <label class="switch"><input type="checkbox" id="autoVoice"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Auto React</h4><p>React to messages</p></div>
-                <label class="switch"><input type="checkbox" id="autoReact"><span class="slider"></span></label>
-            </div>
 
-            <h3>🛡️ Security & Group Settings</h3>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Delete</h4><p>Prevent message deletion</p></div>
-                <label class="switch"><input type="checkbox" id="antidelete"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Link</h4><p>Remove link senders</p></div>
-                <label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Bad Words Filter</h4><p>Auto kick bad word users</p></div>
-                <label class="switch"><input type="checkbox" id="badWords"><span class="slider"></span></label>
-            </div>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Anti-Command</h4><p>Block commands in group</p></div>
-                <label class="switch"><input type="checkbox" id="antiCmd"><span class="slider"></span></label>
-            </div>
+        <div class="ad-banner-dash">
 
-            <h3>Auto Reply Configuration</h3>
-            <div class="setting-item">
-                <div class="setting-info"><h4>Auto reply</h4><p>Keyword Replies</p></div>
-                <label class="switch"><input type="checkbox" id="autoReply"><span class="slider"></span></label>
-            </div>
+            <script async="async" data-cfasync="false" src="https://pl28409004.effectivegatecpm.com/04fde588c8c3c4ebc19bb82d26eddcf6/invoke.js"></script>
 
-            <div class="reply-container">
-                <div class="reply-input-group">
-                    <input type="text" id="kwInput" placeholder="Trigger Word">
-                    <textarea id="repInput" placeholder="Reply Text"></textarea>
-                    <button class="btn-add" onclick="addReply()">ADD KEYWORD</button>
-                </div>
-                <div class="reply-list" id="replyList"></div>
-            </div>
+            <div id="container-04fde588c8c3c4ebc19bb82d26eddcf6"></div>
+
         </div>
 
+
+
+        <div class="settings-list">
+
+            <h3>General Settings</h3>
+
+            <div class="setting-field"><label>Bot Name</label><input type="text" id="botName"></div>
+
+            <div class="setting-field"><label>Owner Name</label><input type="text" id="ownerName"></div>
+
+            <div class="setting-field"><label>Dashboard Password</label><input type="text" id="password"></div>
+
+            <div class="setting-field"><label>Prefix</label><input type="text" id="prefix" maxlength="1"></div>
+
+            <div class="setting-field">
+
+                <label>Work Type</label>
+
+                <select id="workType">
+
+                    <option value="public">Public Mode</option>
+
+                    <option value="private">Private Mode</option>
+
+                </select>
+
+            </div>
+
+
+
+            <h3>Automations</h3>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Always Online</h4><p>Stay active 24/7</p></div>
+
+                <label class="switch"><input type="checkbox" id="alwaysOnline"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto Read Msg</h4><p>Read all messages automatically</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoRead"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Read Commands</h4><p>Mark commands as read</p></div>
+
+                <label class="switch"><input type="checkbox" id="readCmd"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto Typing</h4><p>Show 'typing...' status</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoTyping"><span class="slider"></span></label>
+
+            </div>
+
+      <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto Voice</h4><p>Fake voice.....</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoVoice"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Connection Msg</h4><p>Send notice on bot startup</p></div>
+
+                <label class="switch"><input type="checkbox" id="connectionMsg"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto Status Seen</h4><p>View contacts' status</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoStatusSeen"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto Status React</h4><p>React to status updates</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoStatusReact"><span class="slider"></span></label>
+
+            </div>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Buttons Mode</h4><p>Enable button responses</p></div>
+
+                <label class="switch"><input type="checkbox" id="buttons"><span class="slider"></span></label>
+
+            </div>
+
+            
+
+
+
+            <h3>Auto Reply Configuration</h3>
+
+            <div class="setting-item">
+
+                <div class="setting-info"><h4>Auto reply</h4><p>Enable/Disable Keyword Replies</p></div>
+
+                <label class="switch"><input type="checkbox" id="autoReply"><span class="slider"></span></label>
+
+            </div>
+
+
+
+            <div class="reply-container">
+
+                <div class="reply-input-group">
+
+                    <input type="text" id="kwInput" placeholder="If user says (e.g. hi)">
+
+                    <textarea id="repInput" placeholder="Bot should say..."></textarea>
+
+                    <button class="btn-add" onclick="addReply()">ADD KEYWORD</button>
+
+                </div>
+
+                <div class="reply-list" id="replyList"></div>
+
+            </div>
+
+        </div>
+
+
+
         <button class="btn-update" id="saveBtn" onclick="updateSettings()">SAVE & SYNC BOT</button>
-        <a href="index.html" class="go-home" style="color:#aaa; text-decoration:none; font-size:0.8rem; margin-top:20px; display:block;">← Back to Home</a>
+
+        <div class="music-info">🎵 Music starts on any click</div>
+
+        <a href="index.html" class="go-home">← Back to Home</a>
+
     </div>
 
+
+
+    <script type='text/javascript' src='https://pl28408894.effectivegatecpm.com/38/f2/4c/38f24ce2699abee8a53ce4302ea94cb2.js'></script>
+
+
+
+    <div class="fixed-bottom-ad">
+
+        <script type="text/javascript">
+
+            atOptions = { 'key' : 'c8046fb4f58871287e3444e872b11763', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+
+        </script>
+
+        <script type="text/javascript" src="https://www.highperformanceformat.com/c8046fb4f58871287e3444e872b11763/invoke.js"></script>
+
+    </div>
+
+
+
     <script>
+
         const API_URL = "https://web-auth-six.vercel.app/api/auth";
+
+        const DEFAULT_BOT_URL = "https://zanta-mini-bass.onrender.com"; 
+
         let autoReplies = [];
+
+
 
         function closePopup() { document.getElementById('popupModal').classList.remove('active'); }
 
+
+
+        window.addEventListener('click', () => {
+
+            const music = document.getElementById('bgMusic');
+
+            if(music && music.paused) { music.play().catch(e => console.log("Music blocked")); }
+
+        }, { once: true });
+
+
+
         window.onload = async () => {
+
             setTimeout(() => { document.getElementById('popupModal').classList.add('active'); }, 500);
+
             const botId = localStorage.getItem('bot_id');
+
             const botPass = localStorage.getItem('bot_pass');
 
+            if(!botId) { window.location.href = 'login.html'; return; }
+
+
+
             try {
+
                 const res = await fetch(API_URL, {
+
                     method: 'POST',
+
                     headers: { 'Content-Type': 'application/json' },
+
                     body: JSON.stringify({ id: botId, password: botPass, action: 'login' })
+
                 });
+
                 const data = await res.json();
+
                 if(data.success) {
+
                     const s = data.settings;
-                    // General Mapping
+
                     document.getElementById('botName').value = s.botName || '';
+
                     document.getElementById('ownerName').value = s.ownerName || '';
+
                     document.getElementById('password').value = s.password || '';
+
                     document.getElementById('prefix').value = s.prefix || '.';
+
                     document.getElementById('workType').value = s.workType || 'public';
+
                     
-                    // Boolean/String Mapping
+
                     document.getElementById('alwaysOnline').checked = s.alwaysOnline === "true";
+
                     document.getElementById('autoRead').checked = s.autoRead === "true";
+
                     document.getElementById('readCmd').checked = s.readCmd === "true";
+
                     document.getElementById('autoTyping').checked = s.autoTyping === "true";
+
+                    document.getElementById('autoStatusSeen').checked = s.autoStatusSeen === "true";
+
+                    document.getElementById('autoStatusReact').checked = s.autoStatusReact === "true";
+
                     document.getElementById('autoVoice').checked = s.autoVoice === "true";
-                    document.getElementById('autoReact').checked = s.autoReact === "true";
-                    document.getElementById('antidelete').checked = s.antidelete === "true";
-                    document.getElementById('antiLink').checked = s.antiLink === "true";
-                    document.getElementById('badWords').checked = s.badWords === "true";
-                    document.getElementById('antiCmd').checked = s.antiCmd === "true";
+
                     document.getElementById('autoReply').checked = s.autoReply === "true";
 
+                    document.getElementById('connectionMsg').checked = s.connectionMsg === "true";
+
+                    document.getElementById('buttons').checked = s.buttons === "true";
+
+
+
                     autoReplies = s.autoReplies || [];
+
                     renderReplies();
+
                 }
-            } catch (err) { console.error("Load Error", err); }
+
+            } catch (err) { console.error("Error loading settings", err); }
+
         };
 
+
+
         function addReply() {
+
             const kw = document.getElementById('kwInput').value.trim();
+
             const rep = document.getElementById('repInput').value;
+
             if(kw && rep) {
+
                 autoReplies.push({ keyword: kw, reply: rep });
+
                 document.getElementById('kwInput').value = '';
+
                 document.getElementById('repInput').value = '';
+
                 renderReplies();
+
             }
+
         }
+
+
 
         function removeReply(index) { autoReplies.splice(index, 1); renderReplies(); }
 
+
+
         function renderReplies() {
+
             const list = document.getElementById('replyList');
+
             list.innerHTML = autoReplies.map((item, index) => `
+
                 <div class="reply-item">
-                    <div><b>${item.keyword}</b>: ${item.reply}</div>
-                    <div onclick="removeReply(${index})" style="color:#ff4d4d; cursor:pointer;">Delete</div>
+
+                    <div><span>#</span> ${item.keyword} → ${item.reply}</div>
+
+                    <div class="del-btn" onclick="removeReply(${index})">Delete</div>
+
                 </div>
+
             `).join('');
+
         }
+
+
 
         async function updateSettings() {
+
             const botId = localStorage.getItem('bot_id');
+
+            const botPass = localStorage.getItem('bot_pass');
+
             const saveBtn = document.getElementById('saveBtn');
+
             
+
             const settingsData = {
+
                 botName: document.getElementById('botName').value,
+
                 ownerName: document.getElementById('ownerName').value,
+
                 password: document.getElementById('password').value,
+
                 prefix: document.getElementById('prefix').value,
+
                 workType: document.getElementById('workType').value,
+
                 alwaysOnline: document.getElementById('alwaysOnline').checked.toString(),
+
                 autoRead: document.getElementById('autoRead').checked.toString(),
+
                 readCmd: document.getElementById('readCmd').checked.toString(),
+
                 autoTyping: document.getElementById('autoTyping').checked.toString(),
+
+                autoStatusSeen: document.getElementById('autoStatusSeen').checked.toString(),
+
+                autoStatusReact: document.getElementById('autoStatusReact').checked.toString(),
+
                 autoVoice: document.getElementById('autoVoice').checked.toString(),
-                autoReact: document.getElementById('autoReact').checked.toString(),
-                antidelete: document.getElementById('antidelete').checked.toString(),
-                antiLink: document.getElementById('antiLink').checked.toString(),
-                badWords: document.getElementById('badWords').checked.toString(),
-                antiCmd: document.getElementById('antiCmd').checked.toString(),
+
                 autoReply: document.getElementById('autoReply').checked.toString(),
+
+                connectionMsg: document.getElementById('connectionMsg').checked.toString(),
+
+                buttons: document.getElementById('buttons').checked.toString(),
+
                 autoReplies: autoReplies
+
             };
 
-            saveBtn.innerText = "SAVING...";
+
+
+            saveBtn.innerText = "SYNCING...";
+
+            saveBtn.disabled = true;
+
+
+
             try {
+
                 const res = await fetch(API_URL, {
+
                     method: 'POST',
+
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: botId, action: 'updateSettings', settings: settingsData })
+
+                    body: JSON.stringify({ id: botId, password: botPass, action: 'updateSettings', settings: settingsData, botUrl: DEFAULT_BOT_URL })
+
                 });
+
                 const data = await res.json();
-                if(data.success) alert("Settings Synced! ✅");
-            } catch (err) { alert("Error saving!"); }
-            finally { saveBtn.innerText = "SAVE & SYNC BOT"; }
+
+                if(data.success) {
+
+                    localStorage.setItem('bot_pass', settingsData.password);
+
+                    alert("Settings Updated! ✅");
+
+                } else { alert("Sync Error: " + data.error); }
+
+            } catch (err) { alert("Connection failed!"); }
+
+            finally { saveBtn.innerText = "SAVE & SYNC BOT"; saveBtn.disabled = false; }
+
         }
 
-        // Stars Background Logic
-        const sc = document.getElementById('stars');
-        for (let i = 0; i < 40; i++) {
-            const s = document.createElement('div');
-            s.className = 'star';
-            s.style.width = s.style.height = Math.random() * 3 + 'px';
-            s.style.left = Math.random() * 100 + '%';
-            s.style.top = Math.random() * 100 + '%';
-            s.style.animationDuration = Math.random() * 5 + 2 + 's';
-            sc.appendChild(s);
+
+
+        const starsContainer = document.getElementById('stars');
+
+        for (let i = 0; i < 50; i++) {
+
+            const star = document.createElement('div');
+
+            star.className = 'star';
+
+            const size = Math.random() * 2 + 'px';
+
+            star.style.width = size; star.style.height = size;
+
+            star.style.left = Math.random() * 100 + '%';
+
+            star.style.top = Math.random() * 100 + '%';
+
+            star.style.animationDuration = Math.random() * 3 + 2 + 's';
+
+            starsContainer.appendChild(star);
+
         }
+
     </script>
+
 </body>
+
+
+
 </html>
