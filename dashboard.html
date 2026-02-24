@@ -248,13 +248,20 @@
 
         async function updateSettings() {
             const botId = localStorage.getItem('bot_id');
-            const botPass = localStorage.getItem('bot_pass'); // 👈 localStorage එකෙන් password එක ගන්න
+            const botPass = localStorage.getItem('bot_pass'); // Password එක අනිවාර්යයි
             const saveBtn = document.getElementById('saveBtn');
+            const botImageUrl = document.getElementById('botImage').value.trim();
+
+            // 🛑 Catbox Link Validation
+            if (botImageUrl && !botImageUrl.includes("files.catbox.moe")) {
+                alert("❌ Please use a valid Catbox image link!\n(Example: https://files.catbox.moe/xxxxxx.jpg)");
+                return; // ලින්ක් එක වැරදි නම් මෙතනින් නවතිනවා
+            }
             
             const settingsData = {
                 botName: document.getElementById('botName').value,
                 ownerName: document.getElementById('ownerName').value,
-                botImage: document.getElementById('botImage').value,
+                botImage: botImageUrl,
                 password: document.getElementById('password').value,
                 prefix: document.getElementById('prefix').value,
                 workType: document.getElementById('workType').value,
@@ -282,30 +289,22 @@
                 const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    // 👇 මෙන්න මෙතන password: botPass කියන එක ඇතුළත් කළා
                     body: JSON.stringify({ 
                         id: botId, 
-                        password: botPass, 
+                        password: botPass, // කලින් 401 ආපු නිසා මේකත් දැම්මා
                         action: 'updateSettings', 
                         settings: settingsData 
                     })
                 });
-                
                 const data = await res.json();
-                
                 if(data.success) {
                     alert("Settings Synced! ✅");
-                    // මාරු කරපු password එකක් තියෙනවා නම් localStorage update කරන්න
                     localStorage.setItem('bot_pass', settingsData.password);
                 } else {
-                    alert("Failed: " + (data.message || "Unauthorized ❌"));
+                    alert("Update Failed: " + (data.message || "Unauthorized"));
                 }
-            } catch (err) { 
-                console.error(err);
-                alert("Error saving! Check your connection."); 
-            } finally { 
-                saveBtn.innerText = "SAVE & SYNC BOT"; 
-            }
+            } catch (err) { alert("Error saving!"); }
+            finally { saveBtn.innerText = "SAVE & SYNC BOT"; }
         }
 
         // Stars Background
@@ -322,4 +321,5 @@
     </script>
 </body>
 </html>
+
 
