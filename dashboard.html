@@ -248,6 +248,7 @@
 
         async function updateSettings() {
             const botId = localStorage.getItem('bot_id');
+            const botPass = localStorage.getItem('bot_pass'); // 👈 localStorage එකෙන් password එක ගන්න
             const saveBtn = document.getElementById('saveBtn');
             
             const settingsData = {
@@ -257,7 +258,7 @@
                 password: document.getElementById('password').value,
                 prefix: document.getElementById('prefix').value,
                 workType: document.getElementById('workType').value,
-                antidelete: document.getElementById('antidelete').value, // Select value
+                antidelete: document.getElementById('antidelete').value,
                 alwaysOnline: document.getElementById('alwaysOnline').checked.toString(),
                 autoRead: document.getElementById('autoRead').checked.toString(),
                 readCmd: document.getElementById('readCmd').checked.toString(),
@@ -281,12 +282,30 @@
                 const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: botId, action: 'updateSettings', settings: settingsData })
+                    // 👇 මෙන්න මෙතන password: botPass කියන එක ඇතුළත් කළා
+                    body: JSON.stringify({ 
+                        id: botId, 
+                        password: botPass, 
+                        action: 'updateSettings', 
+                        settings: settingsData 
+                    })
                 });
+                
                 const data = await res.json();
-                if(data.success) alert("Settings Synced! ✅");
-            } catch (err) { alert("Error saving!"); }
-            finally { saveBtn.innerText = "SAVE & SYNC BOT"; }
+                
+                if(data.success) {
+                    alert("Settings Synced! ✅");
+                    // මාරු කරපු password එකක් තියෙනවා නම් localStorage update කරන්න
+                    localStorage.setItem('bot_pass', settingsData.password);
+                } else {
+                    alert("Failed: " + (data.message || "Unauthorized ❌"));
+                }
+            } catch (err) { 
+                console.error(err);
+                alert("Error saving! Check your connection."); 
+            } finally { 
+                saveBtn.innerText = "SAVE & SYNC BOT"; 
+            }
         }
 
         // Stars Background
@@ -303,3 +322,4 @@
     </script>
 </body>
 </html>
+
