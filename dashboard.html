@@ -246,22 +246,25 @@
             `).join('');
         }
 
-        async function updateSettings() {
+       async function updateSettings() {
             const botId = localStorage.getItem('bot_id');
-            const botPass = localStorage.getItem('bot_pass'); // Password එක අනිවාර්යයි
+            const botPass = localStorage.getItem('bot_pass'); 
             const saveBtn = document.getElementById('saveBtn');
             const botImageUrl = document.getElementById('botImage').value.trim();
 
-            // 🛑 Catbox Link Validation
-            if (botImageUrl && !botImageUrl.includes("files.catbox.moe")) {
-                alert("❌ Please use a valid Catbox image link!\n(Example: https://files.catbox.moe/xxxxxx.jpg)");
-                return; // ලින්ක් එක වැරදි නම් මෙතනින් නවතිනවා
+            // 🛑 Catbox Link Validation Logic
+            // පින්තූරයක් දාලා තියෙනවා නම් සහ ඒක 'default' හෝ 'null' නෙවෙයි නම් විතරක් catbox ද කියලා බලනවා.
+            if (botImageUrl && botImageUrl !== "" && botImageUrl.toLowerCase() !== "default" && botImageUrl.toLowerCase() !== "null") {
+                if (!botImageUrl.includes("files.catbox.moe")) {
+                    alert("❌ Please use a valid Catbox image link!\n(Example: https://files.catbox.moe/xxxxxx.jpg)");
+                    return; 
+                }
             }
             
             const settingsData = {
                 botName: document.getElementById('botName').value,
                 ownerName: document.getElementById('ownerName').value,
-                botImage: botImageUrl,
+                botImage: botImageUrl || 'default', // හිස්ව තිබ්බොත් 'default' කියලා යවනවා
                 password: document.getElementById('password').value,
                 prefix: document.getElementById('prefix').value,
                 workType: document.getElementById('workType').value,
@@ -291,7 +294,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         id: botId, 
-                        password: botPass, // කලින් 401 ආපු නිසා මේකත් දැම්මා
+                        password: botPass, 
                         action: 'updateSettings', 
                         settings: settingsData 
                     })
@@ -321,5 +324,6 @@
     </script>
 </body>
 </html>
+
 
 
